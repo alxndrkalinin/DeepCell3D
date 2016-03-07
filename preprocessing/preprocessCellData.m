@@ -29,8 +29,12 @@ function preprocessCellData()
 end
 
 function preprocessRun(path)
+
+% use to process one run (comment preprocessCellData above)
+% function preprocessCellData()
+%     path = '/Users/alex/Projects/3DDeepCellClass/data/fibroblast/nii/ss/167';
+
     addpath(genpath(path));
-%     cd(path)
 
     dirMask = dir([path, '/c0_masks']);
     listFile = dir([path, '/*.lst']);
@@ -73,7 +77,8 @@ function preprocessRun(path)
                                 if cZ > 24 || cZ < 8
                                    % If the centroid lies in the corner of the image stack ...
                                     %    pad zeros in 3rd dimension
-                                    cimageMasked = padarray(cimageMasked,[0,0,8]);
+                                    cimageMasked = padarray(cimageMasked, [0, 0, 8]);
+                                    cZ = cZ + 8;
                                 end
                                 for depth = 1:15    
                                     croppedImage = imcrop(cimageMasked(:, :, cZ-8+depth), ...
